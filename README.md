@@ -5,7 +5,7 @@
 ### Lê Tuấn Anh - 18424003
 ### Huỳnh Văn Hậu - 18424024
 
-# Find my kids - Service
+# Service
 ![2020-02-22_22-35-39](https://user-images.githubusercontent.com/61270653/75095430-3092c780-55c7-11ea-85a5-0c0f4238e1c0.png)
 
 ### Tech
@@ -24,10 +24,22 @@ In docker-compose folder
 ```sh
 $ docker-compose up -d
 ```
-### Development
-In folder of project
+### Start service
+Start Family Service
 ```sh
-$ dotnet run --server.urls=http://0.0.0.0:5009
+$ dotnet run --server.urls=http://localhost:5001
+```
+Start LocationReporter Service
+```sh
+$ dotnet run --server.urls=http://localhost:5002
+```
+Start EventProcessor Service
+```sh
+dotnet run --server.urls=http://localhost:5003
+```
+Start RealityService
+```sh
+dotnet run --server.urls=http://localhost:5004
 ```
 ### Todos
 
