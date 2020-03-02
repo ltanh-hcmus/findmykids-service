@@ -1,38 +1,30 @@
+using FindMyKids.LocationReporter.Events;
+using FindMyKids.LocationReporter.Models;
+using FindMyKids.LocationReporter.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using Microsoft.Extensions.Logging;
-using System.Linq;
-using FindMyKids.LocationReporter.Models;
-using FindMyKids.LocationReporter.Events;
-using FindMyKids.LocationReporter.Services;
+using Microsoft.Extensions.Hosting;
 
 namespace FindMyKids.LocationReporter
 {
     public class Startup
-    {        
-        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory) 
+    {
+        public Startup(IConfiguration configuration)
         {
-            loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().AddDebug());
-
-            var builder = new ConfigurationBuilder()                
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
-		        .AddEnvironmentVariables();		                    
-
-	        Configuration = builder.Build();    		        
+            Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services) 
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddControllers();
             services.AddOptions();
 
-            services.Configure<AMQPOptions>(Configuration.GetSection("amqp"));            
+            services.Configure<AMQPOptions>(Configuration.GetSection("amqp"));
             services.Configure<FamilyServiceOptions>(Configuration.GetSection("familyservice"));
 
             services.AddSingleton(typeof(IEventEmitter), typeof(AMQPEventEmitter));
@@ -40,17 +32,22 @@ namespace FindMyKids.LocationReporter
             services.AddSingleton(typeof(IFamilyServiceClient), typeof(HttpFamilyServiceClient));
         }
 
-        public void Configure(IApplicationBuilder app, 
-                IHostingEnvironment env, 
-                ILoggerFactory loggerFactory,
-                IFamilyServiceClient familyServiceClient,
-                IEventEmitter eventEmitter) 
-        {           
-            // Asked for instances of singletons during Startup
-            // to force initialization early.
-            
-            app.UseMvc();
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
-

@@ -16,16 +16,16 @@ namespace FindMyKids.FamilyService.Persistence
 			//	families = new List<Family>();
 			//}
 
-			families = new List<Family>();
+			//families = new List<Family>();
 
-			ICollection<Member> members = new List<Member>();
+			//ICollection<Member> members = new List<Member>();
 
-			members.Add(new Member { ID = Guid.Parse("875ea426-6317-4945-8dbf-b775fb3e9287"), FirstName = "Lê Tuấn", LastName = "Anh" });
-			members.Add(new Member { ID = Guid.Parse("2d9a6966-17f5-4339-9f14-0acfd05005fd"), FirstName = "Huỳnh Văn", LastName = "Hậu" });
+			//members.Add(new Member { ID = Guid.Parse("875ea426-6317-4945-8dbf-b775fb3e9287"), FirstName = "Lê Tuấn", LastName = "Anh" });
+			//members.Add(new Member { ID = Guid.Parse("2d9a6966-17f5-4339-9f14-0acfd05005fd"), FirstName = "Huỳnh Văn", LastName = "Hậu" });
 
-			Family family = new Family { ID = Guid.Parse("681c9af4-7780-4647-b180-ab7e01cb8617"), Name = "Gia Đình 1", Members = members };
+			//Family family = new Family { ID = Guid.Parse("681c9af4-7780-4647-b180-ab7e01cb8617"), Name = "Gia Đình 1", Members = members };
 
-			families.Add(family);
+			//families.Add(family);
 		}
 
 		public MemoryFamilyRepository(ICollection<Family> families)

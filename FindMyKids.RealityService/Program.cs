@@ -1,6 +1,6 @@
-using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace FindMyKids.RealityService
 {
@@ -8,18 +8,22 @@ namespace FindMyKids.RealityService
     {
         public static void Main(string[] args)
         {
-            IConfiguration config = new ConfigurationBuilder()
- 				.AddCommandLine(args)
-				.Build();
-
-	    	var host = new WebHostBuilder()
-				.UseKestrel()
-				.UseStartup<Startup>()
-				.UseContentRoot(Directory.GetCurrentDirectory())
-				.UseConfiguration(config)
-				.Build();
-
-	    	host.Run();
+            CreateHostBuilder(args).Build().Run();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureHostConfiguration(configHost =>
+                {
+                    configHost.AddCommandLine(args);
+                })
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
+                })
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }

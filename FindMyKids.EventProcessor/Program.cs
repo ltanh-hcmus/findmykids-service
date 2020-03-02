@@ -1,7 +1,6 @@
-﻿using System.IO;
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-
 
 namespace FindMyKids.EventProcessor
 {
@@ -10,17 +9,17 @@ namespace FindMyKids.EventProcessor
         public static void Main(string[] args)
         {
             IConfiguration config = new ConfigurationBuilder()
- 				.AddCommandLine(args)
-				.Build();
+                .AddCommandLine(args)
+                .Build();
 
-	    	var host = new WebHostBuilder()
-				.UseKestrel()
-				.UseStartup<Startup>()
-				.UseContentRoot(Directory.GetCurrentDirectory())
-				.UseConfiguration(config)
-				.Build();
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseStartup<Startup>()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseConfiguration(config)
+                .Build();
 
-	    	host.Run();
+            host.Run();
         }
     }
 }

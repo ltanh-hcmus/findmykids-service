@@ -1,30 +1,50 @@
-﻿using FindMyKids.FamilyService.Persistence;
+using FindMyKids.FamilyService.Models;
+using FindMyKids.FamilyService.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 
 namespace FindMyKids.FamilyService
 {
-    class Startup
+    public class Startup
     {
-        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public Startup(IConfiguration configuration)
         {
-            loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().AddDebug());
+            Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddScoped<IFamilyRepository, MemoryFamilyRepository>();
+            services.AddControllers();
+            services.AddOptions();
+
+            //services.AddScoped<IFamilyRepository, MemoryFamilyRepository>();
+            services.Configure<ELSOptions>(Configuration.GetSection("els"));
+
+            services.AddScoped<IMemberRepository, ELSMemberRepository>();
         }
 
-        public void Configure(IApplicationBuilder app)
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseMvc();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

@@ -2,134 +2,106 @@
 using FindMyKids.FamilyService.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 
 namespace FindMyKids.FamilyService.Controllers
 {
-	[Route("/families/{familyId}/[controller]")]
+	[ApiController]
+	[Route("[controller]")]
 	public class MembersController : Controller
 	{
-		IFamilyRepository repository;
+		private readonly IMemberRepository repository;
 
-		public MembersController(IFamilyRepository repo)
+		public MembersController(IMemberRepository repo)
 		{
 			repository = repo;
 		}
 
 		[HttpGet]
-		public virtual IActionResult GetMembers(Guid familyID)
+		public virtual IActionResult GetMemberxxx(Guid memberID)
 		{
-			Family family = repository.Get(familyID);
-
-			if (family == null)
-			{
-				return this.NotFound();
-			}
-			else
-			{
-				return this.Ok(family.Members);
-			}
+			return this.Ok();
 		}
 
-
 		[HttpGet]
-		[Route("/families/{familyId}/[controller]/{memberId}")]
-		public virtual IActionResult GetMember(Guid familyID, Guid memberId)
+		[Route("[controller]/{memberID}")]
+		public virtual IActionResult GetMember(Guid memberID)
 		{
-			Family family = repository.Get(familyID);
+			Member member = repository.Get(memberID);
 
-			if (family == null)
+			if (member == null)
 			{
 				return this.NotFound();
 			}
 			else
 			{
-				var q = family.Members.Where(m => m.ID == memberId);
-
-				if (q.Count() < 1)
-				{
-					return this.NotFound();
-				}
-				else
-				{
-					return this.Ok(q.First());
-				}
+				return this.Ok(member);
 			}
 		}
 
 		[HttpPut]
-		[Route("/families/{familyId}/[controller]/{memberId}")]
-		public virtual IActionResult UpdateMember([FromBody]Member updatedMember, Guid familyID, Guid memberId)
+		public virtual IActionResult UpdateMember([FromBody]Member updatedMember)
 		{
-			Family family = repository.Get(familyID);
+			//Family family = repository.Get(familyID);
 
-			if (family == null)
-			{
-				return this.NotFound();
-			}
-			else
-			{
-				var q = family.Members.Where(m => m.ID == memberId);
+			//if (family == null)
+			//{
+			//	return this.NotFound();
+			//}
+			//else
+			//{
+			//	var q = family.Members.Where(m => m.ID == memberId);
 
-				if (q.Count() < 1)
-				{
-					return this.NotFound();
-				}
-				else
-				{
-					family.Members.Remove(q.First());
-					family.Members.Add(updatedMember);
-					return this.Ok();
-				}
-			}
+			//	if (q.Count() < 1)
+			//	{
+			//		return this.NotFound();
+			//	}
+			//	else
+			//	{
+			//		family.Members.Remove(q.First());
+			//		family.Members.Add(updatedMember);
+			//		return this.Ok();
+			//	}
+			//}
+
+			return this.Ok();
 		}
 
 		[HttpPost]
-		public virtual IActionResult CreateMember([FromBody]Member newMember, Guid familyID)
+		public virtual IActionResult CreateMember([FromBody]Member newMember)
 		{
-			Family family = repository.Get(familyID);
-
-			if (family == null)
-			{
-				return this.NotFound();
-			}
-			else
-			{
-				family.Members.Add(newMember);
-				var familyMember = new { familyID = family.ID, MemberID = newMember.ID };
-				return this.Created($"/families/{familyMember.familyID}/[controller]/{familyMember.MemberID}", familyMember);
-			}
+			repository.Add(newMember);
+			return this.Ok(newMember);
 		}
 
-		[HttpGet]
-		[Route("/members/{memberId}/family")]
-		public IActionResult GetfamilyForMember(Guid memberId)
-		{
-			var familyId = GetfamilyIdForMember(memberId);
-			if (familyId != Guid.Empty)
-			{
-				return this.Ok(new
-				{
-					familyID = familyId
-				});
-			}
-			else
-			{
-				return this.NotFound();
-			}
-		}
+		//[HttpGet]
+		//[Route("/members/{memberId}/family")]
+		//public IActionResult GetfamilyForMember(Guid memberId)
+		//{
+		//	var familyId = GetfamilyIdForMember(memberId);
+		//	if (familyId != Guid.Empty)
+		//	{
+		//		return this.Ok(new
+		//		{
+		//			familyID = familyId
+		//		});
+		//	}
+		//	else
+		//	{
+		//		return this.NotFound();
+		//	}
+		//}
 
-		private Guid GetfamilyIdForMember(Guid memberId)
-		{
-			foreach (var family in repository.List())
-			{
-				var member = family.Members.FirstOrDefault(m => m.ID == memberId);
-				if (member != null)
-				{
-					return family.ID;
-				}
-			}
-			return Guid.Empty;
-		}
+		//private Guid GetfamilyIdForMember(Guid memberId)
+		//{
+		//	foreach (var family in repository.List())
+		//	{
+		//		var member = family.Members.FirstOrDefault(m => m.ID == memberId);
+		//		if (member != null)
+		//		{
+		//			return family.ID;
+		//		}
+		//	}
+		//	return Guid.Empty;
+		//}
 	}
 }
