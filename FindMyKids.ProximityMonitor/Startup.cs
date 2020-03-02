@@ -1,38 +1,32 @@
+using FindMyKids.ProximityMonitor.Events;
+using FindMyKids.ProximityMonitor.FamilyService;
+using FindMyKids.ProximityMonitor.Queues;
+using FindMyKids.ProximityMonitor.Realtime;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using FindMyKids.ProximityMonitor.Queues;
-using FindMyKids.ProximityMonitor.Realtime;
-using RabbitMQ.Client.Events;
-using FindMyKids.ProximityMonitor.Events;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using RabbitMQ.Client;
-using FindMyKids.ProximityMonitor.FamilyService;
+using RabbitMQ.Client.Events;
 
 namespace FindMyKids.ProximityMonitor
 {
     public class Startup
-    {        
-        public Startup(IHostingEnvironment env, ILoggerFactory loggerFactory) 
+    {
+        public Startup(IConfiguration configuration)
         {
-            loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().AddDebug());
-
-            var builder = new ConfigurationBuilder()                
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
-		        .AddEnvironmentVariables();                
-
-	        Configuration = builder.Build();    		        
+            Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services) 
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddOptions();            
+            services.AddControllers();
+            services.AddOptions();
 
 
             services.Configure<QueueOptions>(Configuration.GetSection("QueueOptions"));
@@ -44,27 +38,37 @@ namespace FindMyKids.ProximityMonitor
             services.AddTransient(typeof(EventingBasicConsumer), typeof(RabbitMQEventingConsumer));
             services.AddSingleton(typeof(IEventSubscriber), typeof(RabbitMQEventSubscriber));
             services.AddSingleton(typeof(IEventProcessor), typeof(ProximityDetectedEventProcessor));
-            services.AddTransient(typeof(IFamilyServiceClient),typeof(HttpFamilyServiceClient));
+            services.AddTransient(typeof(IFamilyServiceClient), typeof(HttpFamilyServiceClient));
 
             services.AddRealtimeService();
-            services.AddSingleton(typeof(IRealtimePublisher), typeof(PubnubRealtimePublisher));            
+            services.AddSingleton(typeof(IRealtimePublisher), typeof(PubnubRealtimePublisher));
+
         }
 
-        // Singletons are lazy instantiation.. so if we don't ask for an instance during startup,
-        // they'll never get used.
-        public void Configure(IApplicationBuilder app, 
-                IHostingEnvironment env, 
-                ILoggerFactory loggerFactory,
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
                 IEventProcessor eventProcessor,
                 IOptions<PubnubOptions> pubnubOptions,
                 IRealtimePublisher realtimePublisher)
-        {                     
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
             realtimePublisher.Validate();
             realtimePublisher.Publish(pubnubOptions.Value.StartupChannel, "{'hello': 'world'}");
 
             eventProcessor.Start();
-
-            app.UseMvc();            
-        }        
+        }
     }
 }
