@@ -1,5 +1,6 @@
 ﻿using FindMyKids.FamilyService.Models;
 using FindMyKids.FamilyService.Persistence;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -66,6 +67,7 @@ namespace FindMyKids.FamilyService.Controllers
 			return this.Ok();
 		}
 
+		[EnableCors("_myAllowSpecificOrigins")]
 		[HttpPost]
 		public virtual IActionResult CreateMember([FromBody]Member newMember)
 		{
