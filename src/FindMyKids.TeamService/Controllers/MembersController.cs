@@ -1,19 +1,19 @@
+using FindMyKids.FamilyService.Persistence;
 using FindMyKids.TeamService.Models;
 using FindMyKids.TeamService.Persistence;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
 namespace FindMyKids.TeamService
 {
-	// [EnableCors("_myAllowSpecificOrigins")]
-
-	[Route("/teams/{teamId}/[controller]")]
+	[Route("[controller]")]
 	public class MembersController : Controller
 	{
-		ITeamRepository repository;
+		IMemberRepository repository;
 
-		public MembersController(ITeamRepository repo) 
+		public MembersController(IMemberRepository repo) 
 		{
 			repository = repo;
 		}
@@ -21,13 +21,14 @@ namespace FindMyKids.TeamService
 		[HttpGet]
 		public virtual IActionResult GetMembers(Guid teamID) 
 		{
-			Team team = repository.Get(teamID);
+			//Team team = repository.Get(teamID);
 			
-			if(team == null) {
-				return this.NotFound();
-			} else {
-				return this.Ok(team.Members);
-			}			
+			//if(team == null) {
+			//	return this.NotFound();
+			//} else {
+			//	return this.Ok(team.Members);
+			//}
+			return this.NotFound();
 		}
 		
 
@@ -35,78 +36,77 @@ namespace FindMyKids.TeamService
 		[Route("/teams/{teamId}/[controller]/{memberId}")]		
 		public virtual IActionResult GetMember(Guid teamID, Guid memberId) 
 		{
-			Team team = repository.Get(teamID);
-			
-			if(team == null) {
-				return this.NotFound();
-			} else {
-				var q = team.Members.Where(m => m.ID == memberId);
+			//Team team = repository.Get(teamID);
 
-				if(q.Count() < 1) {
-					return this.NotFound();
-				} else {
-					return this.Ok(q.First());
-				}				
-			}			
+			//if(team == null) {
+			//	return this.NotFound();
+			//} else {
+			//	var q = team.Members.Where(m => m.ID == memberId);
+
+			//	if(q.Count() < 1) {
+			//		return this.NotFound();
+			//	} else {
+			//		return this.Ok(q.First());
+			//	}				
+			//}			
+
+			return this.NotFound();
 		}
 
 		[HttpPut]
 		[Route("/teams/{teamId}/[controller]/{memberId}")]		
 		public virtual IActionResult UpdateMember([FromBody]Member updatedMember, Guid teamID, Guid memberId) 
 		{
-			Team team = repository.Get(teamID);
+			//Team team = repository.Get(teamID);
 			
-			if(team == null) {
-				return this.NotFound();
-			} else {
-				var q = team.Members.Where(m => m.ID == memberId);
+			//if(team == null) {
+			//	return this.NotFound();
+			//} else {
+			//	var q = team.Members.Where(m => m.ID == memberId);
 
-				if(q.Count() < 1) {
-					return this.NotFound();
-				} else {
-					team.Members.Remove(q.First());
-					team.Members.Add(updatedMember);
-					return this.Ok();
-				}
-			}			
+			//	if(q.Count() < 1) {
+			//		return this.NotFound();
+			//	} else {
+			//		team.Members.Remove(q.First());
+			//		team.Members.Add(updatedMember);
+			//		return this.Ok();
+			//	}
+			//}
+			return this.Ok();
 		}
 
+		[EnableCors("_myAllowSpecificOrigins")]
 		[HttpPost]
-		public virtual IActionResult CreateMember([FromBody]Member newMember, Guid teamID) 
+		public virtual IActionResult CreateMember([FromBody]Member newMember) 
 		{
-			Team team = repository.Get(teamID);
-			
-			if(team == null) {
-				return this.NotFound();
-			} else {
-				team.Members.Add(newMember);
-				var teamMember = new {TeamID = team.ID, MemberID = newMember.ID};
-				return this.Created($"/teams/{teamMember.TeamID}/[controller]/{teamMember.MemberID}", teamMember);
-			}
+			repository.Add(newMember);
+			return this.Created($"[controller]", newMember);
 		}
 
 		[HttpGet]
 		[Route("/members/{memberId}/team")]
 		public IActionResult GetTeamForMember(Guid memberId)
 		{
-			var teamId = GetTeamIdForMember(memberId);
-			if (teamId != Guid.Empty) {
-				return this.Ok(new {
-					TeamID = teamId
-				});
-			} else {
-				return this.NotFound();
-			}
+			//var teamId = GetTeamIdForMember(memberId);
+			//if (teamId != Guid.Empty) {
+			//	return this.Ok(new {
+			//		TeamID = teamId
+			//	});
+			//} else {
+			//	return this.NotFound();
+			//}
+
+			return this.NotFound();
 		}
 
-		private Guid GetTeamIdForMember(Guid memberId) 
+		private Guid GetTeamIdForMember(Guid memberId)
 		{
-			foreach (var team in repository.List()) {
-				var member = team.Members.FirstOrDefault( m => m.ID == memberId);
-				if (member != null) {
-					return team.ID;
-				}
-			}
+			//foreach (var team in repository.List()) {
+			//	var member = team.Members.FirstOrDefault( m => m.ID == memberId);
+			//	if (member != null) {
+			//		return team.ID;
+			//	}
+			//}
 			return Guid.Empty;
 		}    
     }
