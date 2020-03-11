@@ -77,10 +77,22 @@ namespace FindMyKids.TeamService
 
 		[EnableCors("_myAllowSpecificOrigins")]
 		[HttpPost]
+
+
 		public virtual IActionResult CreateMember([FromBody]Member newMember) 
 		{
-			repository.Add(newMember);
-			return this.Created($"[controller]", newMember);
+			// vao day nhu ben nodejs vay
+			//string EncodeResponse = Request.Form["g-Recaptcha-Response"];
+			//bool IsCaptchaValid = (Recaptcha.Validate(EncodeResponse) == "True" ? true : false);
+			int countMember= repository.FindUserName(newMember.UserName);
+
+			if (countMember == 0)
+			{
+				newMember.PassWord = BCrypt.Net.BCrypt.HashPassword(newMember.PassWord);
+				repository.Add(newMember);
+				return this.Created($"[controller]", newMember);
+			}
+			return null;
 		}
 
 		[HttpGet]

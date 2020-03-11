@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.TeamService\\FindMyKids.TeamService.csproj": {}
+    "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.TeamService\\FindMyKids.TeamService.csproj": {}
   },
   "projects": {
-    "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.TeamService\\FindMyKids.TeamService.csproj": {
+    "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.TeamService\\FindMyKids.TeamService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.TeamService\\FindMyKids.TeamService.csproj",
+        "projectUniqueName": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.TeamService\\FindMyKids.TeamService.csproj",
         "projectName": "FindMyKids.TeamService",
-        "projectPath": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.TeamService\\FindMyKids.TeamService.csproj",
-        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.TeamService\\obj\\",
+        "projectPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.TeamService\\FindMyKids.TeamService.csproj",
+        "packagesPath": "C:\\Users\\huynh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.TeamService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\huynh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -38,6 +38,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "BCrypt.Net-Core": {
+              "target": "Package",
+              "version": "[1.6.0, )"
+            },
             "Elasticsearch.Net": {
               "target": "Package",
               "version": "[7.6.0, )"
@@ -94,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

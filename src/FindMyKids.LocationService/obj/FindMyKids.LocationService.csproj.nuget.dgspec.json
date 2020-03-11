@@ -1,21 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.LocationService\\FindMyKids.LocationService.csproj": {}
+    "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.LocationService\\FindMyKids.LocationService.csproj": {}
   },
   "projects": {
-    "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.LocationService\\FindMyKids.LocationService.csproj": {
+    "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.LocationService\\FindMyKids.LocationService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.LocationService\\FindMyKids.LocationService.csproj",
+        "projectUniqueName": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.LocationService\\FindMyKids.LocationService.csproj",
         "projectName": "FindMyKids.LocationService",
-        "projectPath": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.LocationService\\FindMyKids.LocationService.csproj",
-        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.LocationService\\obj\\",
+        "projectPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.LocationService\\FindMyKids.LocationService.csproj",
+        "packagesPath": "C:\\Users\\huynh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.LocationService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.LocationService\\NuGet.Config",
-          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\huynh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -23,9 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://www.myget.org/F/steeltoedev/api/v3/index.json": {},
-          "https://www.myget.org/F/steeltoemaster/api/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
@@ -117,7 +114,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

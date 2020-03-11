@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.LocationReporter.Tests\\FindMyKids.LocationReporter.Tests.csproj": {}
+    "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\test\\StatlerWaldorfCorp.LocationReporter.Tests\\FindMyKids.LocationReporter.Tests.csproj": {}
   },
   "projects": {
-    "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.LocationReporter\\FindMyKids.LocationReporter.csproj": {
+    "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.LocationReporter\\FindMyKids.LocationReporter.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.LocationReporter\\FindMyKids.LocationReporter.csproj",
+        "projectUniqueName": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.LocationReporter\\FindMyKids.LocationReporter.csproj",
         "projectName": "FindMyKids.LocationReporter",
-        "projectPath": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.LocationReporter\\FindMyKids.LocationReporter.csproj",
-        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.LocationReporter\\obj\\",
+        "projectPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.LocationReporter\\FindMyKids.LocationReporter.csproj",
+        "packagesPath": "C:\\Users\\huynh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.LocationReporter\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\huynh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -94,21 +94,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.LocationReporter.Tests\\FindMyKids.LocationReporter.Tests.csproj": {
+    "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\test\\StatlerWaldorfCorp.LocationReporter.Tests\\FindMyKids.LocationReporter.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.LocationReporter.Tests\\FindMyKids.LocationReporter.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\test\\StatlerWaldorfCorp.LocationReporter.Tests\\FindMyKids.LocationReporter.Tests.csproj",
         "projectName": "FindMyKids.LocationReporter.Tests",
-        "projectPath": "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.LocationReporter.Tests\\FindMyKids.LocationReporter.Tests.csproj",
-        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.LocationReporter.Tests\\obj\\",
+        "projectPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\test\\StatlerWaldorfCorp.LocationReporter.Tests\\FindMyKids.LocationReporter.Tests.csproj",
+        "packagesPath": "C:\\Users\\huynh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\test\\StatlerWaldorfCorp.LocationReporter.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\huynh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -121,8 +121,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.LocationReporter\\FindMyKids.LocationReporter.csproj": {
-                "projectPath": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.LocationReporter\\FindMyKids.LocationReporter.csproj"
+              "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.LocationReporter\\FindMyKids.LocationReporter.csproj": {
+                "projectPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.LocationReporter\\FindMyKids.LocationReporter.csproj"
               }
             }
           }
@@ -166,7 +166,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

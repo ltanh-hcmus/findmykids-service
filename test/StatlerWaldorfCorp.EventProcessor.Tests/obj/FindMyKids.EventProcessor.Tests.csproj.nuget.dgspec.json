@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.EventProcessor.Tests\\FindMyKids.EventProcessor.Tests.csproj": {}
+    "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\test\\StatlerWaldorfCorp.EventProcessor.Tests\\FindMyKids.EventProcessor.Tests.csproj": {}
   },
   "projects": {
-    "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.EventProcessor\\FindMyKids.EventProcessor.csproj": {
+    "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.EventProcessor\\FindMyKids.EventProcessor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.EventProcessor\\FindMyKids.EventProcessor.csproj",
+        "projectUniqueName": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.EventProcessor\\FindMyKids.EventProcessor.csproj",
         "projectName": "FindMyKids.EventProcessor",
-        "projectPath": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.EventProcessor\\FindMyKids.EventProcessor.csproj",
-        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.EventProcessor\\obj\\",
+        "projectPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.EventProcessor\\FindMyKids.EventProcessor.csproj",
+        "packagesPath": "C:\\Users\\huynh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.EventProcessor\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\huynh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -102,21 +102,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.EventProcessor.Tests\\FindMyKids.EventProcessor.Tests.csproj": {
+    "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\test\\StatlerWaldorfCorp.EventProcessor.Tests\\FindMyKids.EventProcessor.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.EventProcessor.Tests\\FindMyKids.EventProcessor.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\test\\StatlerWaldorfCorp.EventProcessor.Tests\\FindMyKids.EventProcessor.Tests.csproj",
         "projectName": "FindMyKids.EventProcessor.Tests",
-        "projectPath": "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.EventProcessor.Tests\\FindMyKids.EventProcessor.Tests.csproj",
-        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.EventProcessor.Tests\\obj\\",
+        "projectPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\test\\StatlerWaldorfCorp.EventProcessor.Tests\\FindMyKids.EventProcessor.Tests.csproj",
+        "packagesPath": "C:\\Users\\huynh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\test\\StatlerWaldorfCorp.EventProcessor.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\huynh\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -129,8 +129,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.EventProcessor\\FindMyKids.EventProcessor.csproj": {
-                "projectPath": "C:\\luanvan\\src\\findmykids-service-v3\\src\\FindMyKids.EventProcessor\\FindMyKids.EventProcessor.csproj"
+              "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.EventProcessor\\FindMyKids.EventProcessor.csproj": {
+                "projectPath": "C:\\Users\\huynh\\Desktop\\FindMyKid\\findmykids-service\\src\\FindMyKids.EventProcessor\\FindMyKids.EventProcessor.csproj"
               }
             }
           }
@@ -178,7 +178,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

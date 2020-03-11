@@ -22,6 +22,7 @@ namespace FindMyKids.FamilyService.Persistence
 
         public Member Add(Member member)
         {
+            // Chen xu ly can thiet vao day
             var settings = new ConnectionSettings(new Uri(this.eLSOptions.Uri))
                                           .DefaultIndex(this.eLSOptions.DefaultIndex);
             var client = new ElasticClient(settings);
@@ -37,12 +38,30 @@ namespace FindMyKids.FamilyService.Persistence
 
         public Member Get(Guid id)
         {
-            throw new NotImplementedException();
+             throw new NotImplementedException();
         }
 
         public Member Update(Member member)
         {
             throw new NotImplementedException();
+        }
+
+        public int FindUserName(string UserName)
+        {
+            var settings = new ConnectionSettings(new Uri(this.eLSOptions.Uri))
+                                          .DefaultIndex(this.eLSOptions.DefaultIndex);
+            var client = new ElasticClient(settings);
+            var searchResponse = client.Search<Member>(s => s
+            .From(0)
+            .Size(1)
+            .Query(q => q
+            .Match(m => m
+                .Field(f => f.UserName)
+                .Query(UserName)
+                )
+            )
+         );
+            return searchResponse.Documents.Count;
         }
     }
 }
