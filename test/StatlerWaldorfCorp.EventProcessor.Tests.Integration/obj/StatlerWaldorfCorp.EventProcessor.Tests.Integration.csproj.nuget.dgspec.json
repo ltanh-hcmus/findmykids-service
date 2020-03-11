@@ -1,0 +1,72 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.EventProcessor.Tests.Integration\\StatlerWaldorfCorp.EventProcessor.Tests.Integration.csproj": {}
+  },
+  "projects": {
+    "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.EventProcessor.Tests.Integration\\StatlerWaldorfCorp.EventProcessor.Tests.Integration.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.EventProcessor.Tests.Integration\\StatlerWaldorfCorp.EventProcessor.Tests.Integration.csproj",
+        "projectName": "StatlerWaldorfCorp.EventProcessor.Tests.Integration",
+        "projectPath": "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.EventProcessor.Tests.Integration\\StatlerWaldorfCorp.EventProcessor.Tests.Integration.csproj",
+        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
+        "outputPath": "C:\\luanvan\\src\\findmykids-service-v3\\test\\StatlerWaldorfCorp.EventProcessor.Tests.Integration\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp1.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp1.1": {
+            "projectReferences": {
+              "C:\\luanvan\\src\\findmykids-service-v3\\src\\StatlerWaldorfCorp.EventProcessor\\StatlerWaldorfCorp.EventProcessor.csproj": {
+                "projectPath": "C:\\luanvan\\src\\findmykids-service-v3\\src\\StatlerWaldorfCorp.EventProcessor\\StatlerWaldorfCorp.EventProcessor.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp1.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.TestHost": {
+              "target": "Package",
+              "version": "[1.1.1, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[15.0.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "target": "Package",
+              "version": "[1.1.2, )",
+              "autoReferenced": true
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "xunit.runner.visualstudio": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
