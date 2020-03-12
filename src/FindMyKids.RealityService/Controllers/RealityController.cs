@@ -2,10 +2,12 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FindMyKids.RealityService.Location;
+using Microsoft.AspNetCore.Cors;
 
 namespace FindMyKids.RealityService.Controllers
 {
     [Route("api/reality")]
+    [EnableCors]
     public class RealityController : Controller
     {
         private ILocationCache locationCache;
@@ -18,12 +20,14 @@ namespace FindMyKids.RealityService.Controllers
             this.logger = logger;
         }
 
+        [EnableCors]
         [HttpGet("/teams/{teamId}/members")]
         public virtual IActionResult GetTeamMembers(Guid teamId)
         {
             return this.Ok(locationCache.GetMemberLocations(teamId));
         }
 
+        [EnableCors]
         [HttpPut("/teams/{teamId}/members/{memberId}")]
         public virtual IActionResult UpdateMemberLocation(Guid teamId, Guid memberId, [FromBody]MemberLocation memberLocation)
         {
@@ -31,6 +35,7 @@ namespace FindMyKids.RealityService.Controllers
             return this.Ok(memberLocation);
         }
 
+        [EnableCors]
         [HttpGet("/teams/{teamId}/members/{memberId}")]
         public virtual IActionResult GetMemberLocation(Guid teamId, Guid memberId)
         {

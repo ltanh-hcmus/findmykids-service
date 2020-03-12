@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using FindMyKids.RealityService.Location.Redis;
+using FindMyKids.RealityService.Location;
 
 namespace FindMyKids.RealityService
 {
@@ -27,6 +28,7 @@ namespace FindMyKids.RealityService
             services.AddOptions();
 
             services.AddRedisConnectionMultiplexer(Configuration);
+            services.AddScoped<ILocationCache, RedisLocationCache>();
 
             services.AddLogging(configure => configure.AddConsole());
             services.AddLogging(configure => configure.AddDebug());
@@ -36,6 +38,7 @@ namespace FindMyKids.RealityService
                 IHostingEnvironment env,
                 ILoggerFactory loggerFactory)
         {
+            app.UseCors(options => options.AllowAnyOrigin());
             app.UseMvc();
         }
     }

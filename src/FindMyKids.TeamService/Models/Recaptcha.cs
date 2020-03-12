@@ -25,7 +25,7 @@ namespace FindMyKids.TeamService.Models
         public static string Validate(string EncodeResponse)
         {
             var client = new System.Net.WebClient();
-            string PrivateKey = "6LfEGOAUAAAAANn6kdOI8H48baxsnAsVTu31h1xd";
+            string PrivateKey = "6LfrwNEUAAAAAIhgjohBOh5kc35sDUiS6no7dtgT";
             var reply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}",PrivateKey,EncodeResponse));
             var captchaResponse = JsonConvert.DeserializeObject<Recaptcha>(reply);
             return captchaResponse.success;
