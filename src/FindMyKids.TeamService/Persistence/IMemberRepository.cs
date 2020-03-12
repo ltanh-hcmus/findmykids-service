@@ -9,6 +9,5 @@ namespace FindMyKids.FamilyService.Persistence
         Member Add(Member member);
         Member Update(Member member);
         Member Delete(Guid id);
-        int FindUserName(string UserName);
     }
 }

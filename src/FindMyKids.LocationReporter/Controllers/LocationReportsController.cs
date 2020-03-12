@@ -26,7 +26,8 @@ namespace FindMyKids.LocationReporter.Controllers
         public ActionResult PostLocationReport(Guid memberId, [FromBody]LocationReport locationReport)
         {
             MemberLocationRecordedEvent locationRecordedEvent = converter.CommandToEvent(locationReport);
-            locationRecordedEvent.TeamID = teamServiceClient.GetTeamForMember(locationReport.MemberID);
+            //locationRecordedEvent.TeamID = teamServiceClient.GetTeamForMember(locationReport.MemberID);
+            locationRecordedEvent.TeamID = Guid.Parse("681c9af4-7780-4647-b180-ab7e01cb8617");
             eventEmitter.EmitLocationRecordedEvent(locationRecordedEvent);
 
             return this.Created($"/api/members/{memberId}/locationreports/{locationReport.ReportID}", locationReport);

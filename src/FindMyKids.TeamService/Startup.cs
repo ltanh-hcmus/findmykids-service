@@ -20,20 +20,21 @@ namespace FindMyKids.TeamService
         }
 
         readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public IConfigurationRoot Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy(MyAllowSpecificOrigins,
-            //    builder =>
-            //    {
-            //        builder.WithOrigins("http://localhost:8080")
-            //                            .AllowAnyHeader()
-            //                            .AllowAnyMethod();
-            //    });
-            //});
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:8080")
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                });
+            });
 
             services.AddMvc();
             services.Configure<ELSOptions>(Configuration.GetSection("els"));
@@ -42,7 +43,7 @@ namespace FindMyKids.TeamService
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseCors(options => options.AllowAnyOrigin());
             app.UseMvc();
         }
