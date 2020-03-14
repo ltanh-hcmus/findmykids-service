@@ -8,6 +8,7 @@ using System.Linq;
 using FindMyKids.LocationReporter.Models;
 using FindMyKids.LocationReporter.Events;
 using FindMyKids.LocationReporter.Services;
+using Microsoft.OpenApi.Models;
 
 namespace FindMyKids.LocationReporter
 {
@@ -27,7 +28,8 @@ namespace FindMyKids.LocationReporter
 
         public void ConfigureServices(IServiceCollection services) 
         {
-            services.AddMvc();
+            //services.AddMvc(); Fix swagger
+            services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddOptions();
 
             services.Configure<AMQPOptions>(Configuration.GetSection("amqp"));            
@@ -39,6 +41,11 @@ namespace FindMyKids.LocationReporter
 
             services.AddLogging(configure => configure.AddConsole());
             services.AddLogging(configure => configure.AddDebug());
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Find My Kids (Location Reporter) API Documents", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, 
@@ -46,10 +53,16 @@ namespace FindMyKids.LocationReporter
                 ILoggerFactory loggerFactory,
                 ITeamServiceClient teamServiceClient,
                 IEventEmitter eventEmitter) 
-        {           
+        {
             // Asked for instances of singletons during Startup
             // to force initialization early.
-            
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             app.UseMvc();
         }
     }

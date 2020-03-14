@@ -29,7 +29,7 @@ namespace FindMyKids.ProximityMonitor
 
         public void ConfigureServices(IServiceCollection services) 
         {
-            services.AddMvc();
+            services.AddMvc();             
             services.AddOptions();            
 
 
@@ -49,6 +49,7 @@ namespace FindMyKids.ProximityMonitor
 
             services.AddLogging(configure => configure.AddConsole());
             services.AddLogging(configure => configure.AddDebug());
+
         }
 
         // Singletons are lazy instantiation.. so if we don't ask for an instance during startup,
@@ -59,12 +60,11 @@ namespace FindMyKids.ProximityMonitor
                 IEventProcessor eventProcessor,
                 IOptions<PubnubOptions> pubnubOptions,
                 IRealtimePublisher realtimePublisher)
-        {                     
+        {
+
             realtimePublisher.Validate();
             realtimePublisher.Publish(pubnubOptions.Value.StartupChannel, "{'hello': 'world'}");
-
             eventProcessor.Start();
-
             app.UseMvc();            
         }        
     }

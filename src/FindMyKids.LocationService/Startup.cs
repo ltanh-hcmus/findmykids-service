@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using FindMyKids.LocationService.Models;
 using FindMyKids.LocationService.Persistence;
 using System;
+using Microsoft.OpenApi.Models;
 
 namespace FindMyKids.LocationService
 {
@@ -51,12 +52,25 @@ namespace FindMyKids.LocationService
                 services.AddScoped<ILocationRecordRepository, LocationRecordRepository>();
             }
 
-            services.AddMvc();
+            //services.AddMvc();fix swagger
+            services.AddMvc(option => option.EnableEndpointRouting = false);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Find My Kids (Location Service) API Documents", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             app.UseMvc();
+
         }
     }
 }

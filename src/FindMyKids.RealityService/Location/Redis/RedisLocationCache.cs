@@ -85,7 +85,8 @@ namespace FindMyKids.RealityService.Location.Redis
 
             var redisConfig = config.GetSection("redis:configstring").Value;
 
-            services.AddSingleton(typeof(IConnectionMultiplexer), ConnectionMultiplexer.ConnectAsync(redisConfig).Result);
+            //Fix add swagger
+            //services.AddSingleton(typeof(IConnectionMultiplexer), ConnectionMultiplexer.ConnectAsync(redisConfig).Result);
             return services;
         }
     }
