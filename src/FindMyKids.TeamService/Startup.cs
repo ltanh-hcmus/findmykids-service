@@ -1,10 +1,13 @@
-using FindMyKids.FamilyService.Models;
+﻿using FindMyKids.FamilyService.Models;
 using FindMyKids.FamilyService.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace FindMyKids.TeamService
 {
@@ -39,6 +42,25 @@ namespace FindMyKids.TeamService
 
             //services.AddMvc(); Fix add swagger
             services.AddMvc(option => option.EnableEndpointRouting = false);
+            var key = Encoding.ASCII.GetBytes("B5LWcGphRjCKgoKDJkm8Aea4CNiHK91I");
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
             services.Configure<ELSOptions>(Configuration.GetSection("els"));
             services.AddScoped<IMemberRepository, ELSMemberRepository>();
 
@@ -59,6 +81,8 @@ namespace FindMyKids.TeamService
 
             app.UseCors(MyAllowSpecificOrigins);
             app.UseCors(options => options.AllowAnyOrigin());
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseMvc();
         }
     }   

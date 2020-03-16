@@ -2,6 +2,11 @@ using FindMyKids.FamilyService.Persistence;
 using FindMyKids.TeamService.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace FindMyKids.TeamService
 {
@@ -17,27 +22,77 @@ namespace FindMyKids.TeamService
 
 		[HttpPost]
 		[EnableCors("_myAllowSpecificOrigins")]
+		public virtual IActionResult Login([FromBody]AuthenticateModel auth)
+		{
+			if (Request.Headers.ContainsKey("recaptchaToken"))
+			{
+				string EncodeResponse = Request.Headers["recaptchaToken"];
+				if (EncodeResponse == null)
+				{
+					return this.NotFound();
+				}
+				bool IsCaptchaValid = (Recaptcha.Validate(EncodeResponse) == "True" ? true : false);
 
+				if (!IsCaptchaValid)
+				{
+					return this.NotFound();
+				}
+			}
+			else
+			{
+				return this.NotFound();
+			}
+
+			MemberInfo member = repository.Get(auth);
+			if (member != null && BCrypt.Net.BCrypt.Verify(auth.PassWord, member.PassWord))
+			{
+				// authentication successful so generate jwt token
+				var tokenHandler = new JwtSecurityTokenHandler();
+				var key = Encoding.ASCII.GetBytes("B5LWcGphRjCKgoKDJkm8Aea4CNiHK91I");
+				var tokenDescriptor = new SecurityTokenDescriptor
+				{
+					Subject = new ClaimsIdentity(new Claim[]
+					{
+						new Claim(ClaimTypes.Name, member.ID.ToString())
+					}),
+					Expires = DateTime.UtcNow.AddDays(7),
+					SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+				};
+				var token = tokenHandler.CreateToken(tokenDescriptor);
+				member.AccessToken = tokenHandler.WriteToken(token);
+				member.RefreshToken = Guid.NewGuid().ToString();
+
+				if (repository.Update(member))
+				{
+					return this.Created($"[controller]", member.WithoutPassword());
+				}
+			}
+
+			return this.NotFound();
+		}
+
+		[HttpPost]
+		[EnableCors("_myAllowSpecificOrigins")]
 		public virtual IActionResult CreateMember([FromBody]Member newMember)
 		{
-			//if (Request.Headers.ContainsKey("recaptchaToken"))
-			//{
-			//	string EncodeResponse = Request.Headers["recaptchaToken"];
-			//	if (EncodeResponse == null)
-			//	{
-			//		return this.NotFound();
-			//	}
-			//	bool IsCaptchaValid = (Recaptcha.Validate(EncodeResponse) == "True" ? true : false);
+			if (Request.Headers.ContainsKey("recaptchaToken"))
+			{
+				string EncodeResponse = Request.Headers["recaptchaToken"];
+				if (EncodeResponse == null)
+				{
+					return this.NotFound();
+				}
+				bool IsCaptchaValid = (Recaptcha.Validate(EncodeResponse) == "True" ? true : false);
 
-			//	if (!IsCaptchaValid)
-			//	{
-			//		return this.NotFound();
-			//	}
-			//}
-			//else
-			//{
-			//	return this.NotFound();
-			//}
+				if (!IsCaptchaValid)
+				{
+					return this.NotFound();
+				}
+			}
+			else
+			{
+				return this.NotFound();
+			}
 
 			newMember.PassWord = BCrypt.Net.BCrypt.HashPassword(newMember.PassWord);
 			if (repository.Add(newMember) != null)
@@ -52,7 +107,7 @@ namespace FindMyKids.TeamService
 		//public virtual IActionResult GetMembers(Guid teamID) 
 		//{
 		//	//Team team = repository.Get(teamID);
-			
+
 		//	//if(team == null) {
 		//	//	return this.NotFound();
 		//	//} else {
@@ -60,7 +115,7 @@ namespace FindMyKids.TeamService
 		//	//}
 		//	return this.NotFound();
 		//}
-		
+
 
 		//[HttpGet]
 		//[Route("/teams/{teamId}/[controller]/{memberId}")]		
@@ -88,7 +143,7 @@ namespace FindMyKids.TeamService
 		//public virtual IActionResult UpdateMember([FromBody]Member updatedMember, Guid teamID, Guid memberId) 
 		//{
 		//	//Team team = repository.Get(teamID);
-			
+
 		//	//if(team == null) {
 		//	//	return this.NotFound();
 		//	//} else {
@@ -131,5 +186,5 @@ namespace FindMyKids.TeamService
 		//	//}
 		//	return Guid.Empty;
 		//}    
-    }
+	}
 }

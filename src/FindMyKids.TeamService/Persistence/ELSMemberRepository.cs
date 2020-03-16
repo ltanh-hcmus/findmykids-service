@@ -1,4 +1,5 @@
-﻿using FindMyKids.FamilyService.Models;
+﻿using Elasticsearch.Net;
+using FindMyKids.FamilyService.Models;
 using FindMyKids.TeamService.Models;
 using FindMyKids.TeamService.Persistence;
 using Microsoft.Extensions.Logging;
@@ -6,27 +7,25 @@ using Microsoft.Extensions.Options;
 using Nest;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FindMyKids.FamilyService.Persistence
 {
     public class ELSMemberRepository : IMemberRepository
     {
-        private readonly ELSOptions eLSOptions;
         private readonly ILogger logger;
+        private ElasticClient client = null;
 
         public ELSMemberRepository(ILogger<ILogger> logger, IOptions<ELSOptions> eLSOptions)
         {
             this.logger = logger;
-            this.eLSOptions = eLSOptions.Value;
+            this.client = new ElasticClient(new ConnectionSettings(new Uri(eLSOptions.Value.Uri))
+                                          .DefaultIndex(eLSOptions.Value.DefaultIndex));
         }
 
         public Member Add(Member member)
         {
-            var settings = new ConnectionSettings(new Uri(this.eLSOptions.Uri))
-                                          .DefaultIndex(this.eLSOptions.DefaultIndex);
-            var client = new ElasticClient(settings);
-
-            var searchResponse = client.Search<Member>(s => s
+            ISearchResponse<Member> searchResponse = this.client.Search<Member>(s => s
                 .From(0)
                 .Size(1)
                 .Query(q => q
@@ -40,7 +39,7 @@ namespace FindMyKids.FamilyService.Persistence
             if (searchResponse.Documents.Count == 0)
             {
                 member.ID = Guid.NewGuid();
-                client.IndexDocument(member);
+                this.client.IndexDocument(member);
                 return member;
             }
 
@@ -52,14 +51,46 @@ namespace FindMyKids.FamilyService.Persistence
             throw new NotImplementedException();
         }
 
+        public MemberInfo Get(AuthenticateModel member)
+        {
+            ISearchResponse<MemberInfo> searchResponse = this.client.Search<MemberInfo>(s => s
+                .From(0)
+                .Size(1)
+                .Query(q => q
+                .Match(m => m
+                    .Field(f => f.UserName)
+                    .Query(member.UserName)
+                    )
+                )
+            );
+
+            if (searchResponse.Documents.Count > 0)
+            {
+                return searchResponse.Documents.FirstOrDefault();
+            }
+
+            return null;
+        }
+
         public Member Get(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Member Update(Member member)
+        public bool Update(MemberInfo member)
         {
-            throw new NotImplementedException();
+            IUpdateResponse<MemberInfo> update = client.Update<MemberInfo>(member.ID, u => u
+                                                .Script(s => s
+                                                    .Source("ctx._source.AccessToken = params.AccessToken")
+                                                    .Source("ctx._source.RefreshToken = params.RefreshToken")
+                                                    .Params(p => p
+                                                        .Add("AccessToken", member.AccessToken)
+                                                        .Add("RefreshToken", member.RefreshToken)
+                                                    )
+                                                )
+                                                .Refresh(Refresh.True)
+                                            );
+            return update.IsValid;
         }
     }
 }
