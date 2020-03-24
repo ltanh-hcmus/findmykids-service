@@ -1,7 +1,9 @@
 using FindMyKids.FamilyService.Persistence;
 using FindMyKids.TeamService.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,63 +16,148 @@ namespace FindMyKids.TeamService
 	public class MembersController : Controller
 	{
 		IMemberRepository repository;
+		string secret = string.Empty;
+		string reCaptcha = string.Empty;
 
-		public MembersController(IMemberRepository repo) 
+		public MembersController(IMemberRepository repo, IOptions<AppSettings> appOptions) 
 		{
 			repository = repo;
+			secret = appOptions.Value.Secret;
+			reCaptcha = appOptions.Value.ReCaptcha;
 		}
 
+		[AllowAnonymous]
 		[HttpPost]
 		[EnableCors("_myAllowSpecificOrigins")]
+		[Route("/[controller]/login")]
 		public virtual IActionResult Login([FromBody]AuthenticateModel auth)
 		{
-			if (Request.Headers.ContainsKey("recaptchaToken"))
-			{
-				string EncodeResponse = Request.Headers["recaptchaToken"];
-				if (EncodeResponse == null)
-				{
-					return this.NotFound();
-				}
-				bool IsCaptchaValid = (Recaptcha.Validate(EncodeResponse) == "True" ? true : false);
+			//if (Request.Headers.ContainsKey("recaptchaToken"))
+			//{
+			//	string EncodeResponse = Request.Headers["recaptchaToken"];
+			//	if (EncodeResponse == null)
+			//	{
+			//		return this.NotFound();
+			//	}
 
-				if (!IsCaptchaValid)
-				{
-					return this.NotFound();
-				}
-			}
-			else
-			{
-				return this.NotFound();
-			}
+			//	if (!Recaptcha.Validate(EncodeResponse, reCaptcha))
+			//	{
+			//		return this.NotFound();
+			//	}
+			//}
+			//else
+			//{
+			//	return this.NotFound();
+			//}
 
 			MemberInfo member = repository.Get(auth);
 			if (member != null && BCrypt.Net.BCrypt.Verify(auth.PassWord, member.PassWord))
 			{
 				// authentication successful so generate jwt token
 				var tokenHandler = new JwtSecurityTokenHandler();
-				var key = Encoding.ASCII.GetBytes("B5LWcGphRjCKgoKDJkm8Aea4CNiHK91I");
+				var key = Encoding.ASCII.GetBytes(secret);
 				var tokenDescriptor = new SecurityTokenDescriptor
 				{
 					Subject = new ClaimsIdentity(new Claim[]
 					{
 						new Claim(ClaimTypes.Name, member.ID.ToString())
 					}),
-					Expires = DateTime.UtcNow.AddDays(7),
+					Expires = DateTime.UtcNow.AddSeconds(5),
 					SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
 				};
 				var token = tokenHandler.CreateToken(tokenDescriptor);
-				member.AccessToken = tokenHandler.WriteToken(token);
-				member.RefreshToken = Guid.NewGuid().ToString();
+
+				string accessToken = tokenHandler.WriteToken(token);
+
+				if (string.IsNullOrEmpty(member.RefreshToken))
+				{
+					member.RefreshToken = Guid.NewGuid().ToString();
+				}
 
 				if (repository.Update(member))
 				{
-					return this.Created($"[controller]", member.WithoutPassword());
+					return this.Ok(new
+					{
+						authenticated = true,
+						Id = member.ID,
+						Name = member.Name,
+						AccessToken = accessToken,
+						RefreshToken = member.RefreshToken
+					});
 				}
 			}
 
-			return this.NotFound();
+			return this.Ok(new
+			{
+				authenticated = false
+			});
 		}
 
+		[AllowAnonymous]
+		[HttpPost]
+		[EnableCors("_myAllowSpecificOrigins")]
+		[Route("/[controller]/{idMember}/renew-token/{rfToken}")]
+		public virtual IActionResult renewToken(Guid idMember, string rfToken)
+		{
+			MemberInfo member = repository.Get(idMember);
+			if (member != null && member.RefreshToken == rfToken && !string.IsNullOrEmpty(member.RefreshToken))
+			{
+				// authentication successful so generate jwt token
+				var tokenHandler = new JwtSecurityTokenHandler();
+				var key = Encoding.ASCII.GetBytes(secret);
+				var tokenDescriptor = new SecurityTokenDescriptor
+				{
+					Subject = new ClaimsIdentity(new Claim[]
+					{
+						new Claim(ClaimTypes.Name, member.ID.ToString())
+					}),
+					Expires = DateTime.UtcNow.AddSeconds(5),
+					SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+				};
+				var token = tokenHandler.CreateToken(tokenDescriptor);
+
+				string accessToken = tokenHandler.WriteToken(token);
+
+				if (repository.Update(member))
+				{
+					return this.Ok(new
+					{
+						authenticated = true,
+						AccessToken = accessToken
+					});
+				}
+			}
+
+			return this.Ok(new
+			{
+				authenticated = false
+			});
+		}
+
+		//[HttpPost]
+		//[EnableCors("_myAllowSpecificOrigins")]
+		//[Route("/[controller]/logout/{memberId}")]
+		//public virtual IActionResult Logout(Guid memberId)
+		//{
+		//	MemberInfo member = repository.Get(memberId);
+		//	if (member != null)
+		//	{
+		//		if (repository.UpdateLogout(member))
+		//		{
+		//			return this.Ok(new
+		//			{
+		//				logout = true
+		//			});
+		//		}
+		//	}
+
+		//	return this.Ok(new
+		//	{
+		//		logout = false
+		//	});
+		//}
+
+		[Authorize]
 		[HttpPost]
 		[EnableCors("_myAllowSpecificOrigins")]
 		public virtual IActionResult CreateMember([FromBody]Member newMember)
@@ -82,9 +169,8 @@ namespace FindMyKids.TeamService
 				{
 					return this.NotFound();
 				}
-				bool IsCaptchaValid = (Recaptcha.Validate(EncodeResponse) == "True" ? true : false);
 
-				if (!IsCaptchaValid)
+				if (!Recaptcha.Validate(EncodeResponse, reCaptcha))
 				{
 					return this.NotFound();
 				}

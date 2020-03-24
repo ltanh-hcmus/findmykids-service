@@ -1,8 +1,7 @@
+using FindMyKids.TeamService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using FindMyKids.TeamService;
-using FindMyKids.TeamService.Models;
 
 namespace FindMyKids.TeamService.Persistence
 {

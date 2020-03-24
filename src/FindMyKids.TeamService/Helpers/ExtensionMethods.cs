@@ -14,7 +14,7 @@ namespace FindMyKids.TeamService.Models
 
         public static MemberInfo WithoutPassword(this MemberInfo user)
         {
-            user.Password = null;
+            user.PassWord = string.Empty;
             return user;
         }
     }

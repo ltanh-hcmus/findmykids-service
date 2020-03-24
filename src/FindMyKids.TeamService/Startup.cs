@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FindMyKids.TeamService.Models;
 
 namespace FindMyKids.TeamService
 {
@@ -40,9 +41,14 @@ namespace FindMyKids.TeamService
                 });
             });
 
+            // configure strongly typed settings objects
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+            var appSettings = appSettingsSection.Get<AppSettings>();
+
             //services.AddMvc(); Fix add swagger
             services.AddMvc(option => option.EnableEndpointRouting = false);
-            var key = Encoding.ASCII.GetBytes("B5LWcGphRjCKgoKDJkm8Aea4CNiHK91I");
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -57,11 +63,13 @@ namespace FindMyKids.TeamService
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    RequireExpirationTime = true
                 };
             });
 
             services.Configure<ELSOptions>(Configuration.GetSection("els"));
+            services.Configure<AppSettings>(appSettingsSection);
             services.AddScoped<IMemberRepository, ELSMemberRepository>();
 
             services.AddSwaggerGen(c =>

@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FindMyKids.TeamService.Models
 {
@@ -22,13 +21,12 @@ namespace FindMyKids.TeamService.Models
             get { return m_ErrorCodes; }
             set { m_ErrorCodes = value; }
         }
-        public static string Validate(string EncodeResponse)
+        public static bool Validate(string EncodeResponse, string PrivateKey)
         {
             var client = new System.Net.WebClient();
-            string PrivateKey = "6LfrwNEUAAAAAIhgjohBOh5kc35sDUiS6no7dtgT";
             var reply = client.DownloadString(string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}",PrivateKey,EncodeResponse));
             var captchaResponse = JsonConvert.DeserializeObject<Recaptcha>(reply);
-            return captchaResponse.success;
+            return Convert.ToBoolean(captchaResponse.success);
         }
 
     }

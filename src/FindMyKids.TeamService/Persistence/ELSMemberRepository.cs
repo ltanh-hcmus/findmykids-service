@@ -1,12 +1,10 @@
 ﻿using Elasticsearch.Net;
 using FindMyKids.FamilyService.Models;
 using FindMyKids.TeamService.Models;
-using FindMyKids.TeamService.Persistence;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Nest;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace FindMyKids.FamilyService.Persistence
@@ -72,25 +70,76 @@ namespace FindMyKids.FamilyService.Persistence
             return null;
         }
 
-        public Member Get(Guid id)
+        public MemberInfo Get(Guid id)
         {
-            throw new NotImplementedException();
+            ISearchResponse<MemberInfo> searchResponse = this.client.Search<MemberInfo>(s => s
+                .From(0)
+                .Size(1)
+                .Query(q => q
+                .Match(m => m
+                        .Field(f => f.ID)
+                        .Query(id.ToString())
+                        )
+                )
+            );
+
+            if (searchResponse.Documents.Count > 0)
+            {
+                return searchResponse.Documents.FirstOrDefault();
+            }
+
+            return null;
         }
 
         public bool Update(MemberInfo member)
         {
-            IUpdateResponse<MemberInfo> update = client.Update<MemberInfo>(member.ID, u => u
+            //IUpdateResponse<MemberInfo> updateAccessToken = client.Update<MemberInfo>(member.ID, u => u
+            //                                    .Script(s => s
+            //                                        .Source("ctx._source.AccessToken = params.AccessToken")
+            //                                        .Params(p => p
+            //                                            .Add("AccessToken", member.AccessToken)
+            //                                        )
+            //                                    )
+            //                                    .Refresh(Refresh.True)
+            //                                );
+
+            IUpdateResponse<MemberInfo> updateRefreshToken = client.Update<MemberInfo>(member.ID, u => u
                                                 .Script(s => s
-                                                    .Source("ctx._source.AccessToken = params.AccessToken")
-                                                    .Source("ctx._source.RefreshToken = params.RefreshToken")
+                                                    .Source("ctx._source.refreshToken = params.RefreshToken")
                                                     .Params(p => p
-                                                        .Add("AccessToken", member.AccessToken)
                                                         .Add("RefreshToken", member.RefreshToken)
                                                     )
                                                 )
                                                 .Refresh(Refresh.True)
                                             );
-            return update.IsValid;
+
+            //updateAccessToken.IsValid && 
+            return updateRefreshToken.IsValid;
         }
+
+        //public bool UpdateLogout(MemberInfo member)
+        //{
+        //    IUpdateResponse<MemberInfo> updateAccessToken = client.Update<MemberInfo>(member.ID, u => u
+        //                                        .Script(s => s
+        //                                            .Source("ctx._source.AccessToken = params.AccessToken")
+        //                                            .Params(p => p
+        //                                                .Add("AccessToken", "")
+        //                                            )
+        //                                        )
+        //                                        .Refresh(Refresh.True)
+        //                                    );
+
+        //    IUpdateResponse<MemberInfo> updateRefreshToken = client.Update<MemberInfo>(member.ID, u => u
+        //                                        .Script(s => s
+        //                                            .Source("ctx._source.RefreshToken = params.RefreshToken")
+        //                                            .Params(p => p
+        //                                                .Add("RefreshToken", "")
+        //                                            )
+        //                                        )
+        //                                        .Refresh(Refresh.True)
+        //                                    );
+
+        //    return updateAccessToken.IsValid && updateRefreshToken.IsValid;
+        //}
     }
 }

@@ -1,14 +1,11 @@
-using System;
-using System.Linq;
-using System.Text;
+using FindMyKids.LocationReporter.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
-using FindMyKids.LocationReporter.Models;
+using System.Text;
 
 namespace FindMyKids.LocationReporter.Events
-{    
-    
+{
     public class AMQPEventEmitter : IEventEmitter
     {
         private readonly ILogger logger;
