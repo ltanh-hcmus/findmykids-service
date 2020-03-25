@@ -31,7 +31,7 @@ namespace FindMyKids.EventProcessor.Events
                     return new ProximityDetectedEvent() {
                         SourceMemberID = memberLocationEvent.MemberID,
                         TargetMemberID = ml.MemberID,
-                        TeamID = memberLocationEvent.TeamID,
+                        //TeamID = memberLocationEvent.TeamID,
                         DetectionTime = DateTime.UtcNow.Ticks,
                         SourceMemberLocation = sourceCoordinate,
                         TargetMemberLocation = ml.Location,

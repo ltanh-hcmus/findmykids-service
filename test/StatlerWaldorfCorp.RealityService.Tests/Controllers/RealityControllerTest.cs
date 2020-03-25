@@ -76,11 +76,11 @@ namespace FindMyKids.RealityService.Tests.Controllers
                     Longitude = 50.0
                 }
             };
-            cache.Setup( c => c.Get(It.Is<Guid>(g => g == teamId), It.Is<Guid>(g => g == memberId))).Returns( ml ); 
+            cache.Setup( c => c.Get(It.Is<Guid>(g => g == memberId))).Returns( ml ); 
             var logger = new Mock<ILogger<RealityController>>();
             var controller = new RealityController(cache.Object, logger.Object);
 
-            var result = controller.GetMemberLocation(teamId, memberId);
+            var result = controller.GetMemberLocation(memberId);
             var objectResult = result as OkObjectResult;
             Assert.NotNull(objectResult);
             var newMl = (MemberLocation)objectResult.Value;

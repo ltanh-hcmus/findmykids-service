@@ -4,6 +4,7 @@ using FindMyKids.TeamService.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using Xunit;
 
@@ -25,8 +26,11 @@ namespace FindMyKids.TeamService
             CaptchaToken captchaToken = configurationRoot.GetSection("reCaptchaToken").Get<CaptchaToken>();
 
             TestELSMemberRepository testELSMemberRepository = new TestELSMemberRepository(eLSOptions);
-         
-            MembersController controller = new MembersController(testELSMemberRepository);
+
+            var appSettingsSection = configurationRoot.GetSection("AppSettings");
+            var appSettings = appSettingsSection.Get<AppSettings>();
+
+            MembersController controller = new MembersController(testELSMemberRepository, Options.Create<AppSettings>(appSettings));
             controller.ControllerContext = new ControllerContext();
             controller.ControllerContext.HttpContext = new DefaultHttpContext();
             controller.ControllerContext.HttpContext.Request.Headers["recaptchaToken"] = captchaToken.value;

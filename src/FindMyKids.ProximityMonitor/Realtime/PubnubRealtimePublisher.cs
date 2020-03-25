@@ -19,7 +19,6 @@ namespace FindMyKids.ProximityMonitor.Realtime
             this.pubnubClient = pubnubClient;            
         }
 
-        [System.Obsolete]
         public void Validate()        
         { 
             pubnubClient.Time()
@@ -36,7 +35,6 @@ namespace FindMyKids.ProximityMonitor.Realtime
 
         }
 
-        [System.Obsolete]
         public void Publish(string channelName, string message)
         {            
             pubnubClient.Publish()

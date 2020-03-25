@@ -66,7 +66,7 @@ namespace FindMyKids.RealityService.Tests.Location.Redis
             
             var cache = new RedisLocationCache(logger.Object, multiplexer.Object);
 
-            MemberLocation mlExpected = cache.Get(teamId, ml1.MemberID);
+            MemberLocation mlExpected = cache.Get(ml1.MemberID);
 
             Assert.Equal(mlExpected.MemberID, ml1.MemberID);
             db.VerifyAll();

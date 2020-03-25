@@ -14,7 +14,6 @@ namespace FindMyKids.TeamService
             	.Build();
 
             var host = new WebHostBuilder()
-                .UseUrls("http://192.168.1.101:5004/")
                 .UseKestrel()
                 .UseStartup<Startup>()
                 .UseConfiguration(config)

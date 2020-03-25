@@ -36,10 +36,10 @@ namespace FindMyKids.RealityService.Controllers
         }
 
         [EnableCors]
-        [HttpGet("/teams/{teamId}/members/{memberId}")]
-        public virtual IActionResult GetMemberLocation(Guid teamId, Guid memberId)
+        [HttpGet("/members/{memberId}")]
+        public virtual IActionResult GetMemberLocation(Guid memberId)
         {
-            return this.Ok(locationCache.Get(teamId, memberId));
+            return this.Ok(locationCache.Get(memberId));
         }
     }
 }

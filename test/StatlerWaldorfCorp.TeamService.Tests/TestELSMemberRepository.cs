@@ -11,7 +11,7 @@ namespace FindMyKids.FamilyService.Persistence
     public class TestELSMemberRepository : IMemberRepository
     {
         private readonly ELSOptions eLSOptions;
-        private readonly ILogger logger;
+        //private readonly ILogger logger;
 
         public TestELSMemberRepository(ELSOptions eLSOptions)
         {
@@ -95,7 +95,22 @@ namespace FindMyKids.FamilyService.Persistence
             throw new NotImplementedException();
         }
 
+        public MemberInfo Get(AuthenticateModel auth)
+        {
+            throw new NotImplementedException();
+        }
+
         public Member Update(Member member)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Update(MemberInfo member)
+        {
+            throw new NotImplementedException();
+        }
+
+        MemberInfo IMemberRepository.Get(Guid id)
         {
             throw new NotImplementedException();
         }

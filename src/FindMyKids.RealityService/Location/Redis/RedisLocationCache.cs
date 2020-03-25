@@ -44,11 +44,11 @@ namespace FindMyKids.RealityService.Location.Redis
             db.HashSet(teamId.ToString(), memberLocation.MemberID.ToString(), memberLocation.ToJsonString());
         }
 
-        public MemberLocation Get(Guid teamId, Guid memberId)
+        public MemberLocation Get(Guid memberId)
         {
             IDatabase db = connection.GetDatabase();
 
-            var value = (string)db.HashGet(teamId.ToString(), memberId.ToString());
+            var value = (string)db.HashGet(memberId.ToString(), memberId.ToString());
             MemberLocation ml = MemberLocation.FromJsonString(value);
             return ml;
         }
@@ -85,8 +85,7 @@ namespace FindMyKids.RealityService.Location.Redis
 
             var redisConfig = config.GetSection("redis:configstring").Value;
 
-            //Fix add swagger
-            //services.AddSingleton(typeof(IConnectionMultiplexer), ConnectionMultiplexer.ConnectAsync(redisConfig).Result);
+            services.AddSingleton(typeof(IConnectionMultiplexer), ConnectionMultiplexer.ConnectAsync(redisConfig).Result);
             return services;
         }
     }

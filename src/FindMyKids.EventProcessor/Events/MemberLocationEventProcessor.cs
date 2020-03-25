@@ -32,14 +32,14 @@ namespace FindMyKids.EventProcessor.Events
 
             this.subscriber.MemberLocationRecordedEventReceived += (mlre) => {
 
-                var memberLocations = locationCache.GetMemberLocations(mlre.TeamID);
+                var memberLocations = locationCache.GetMemberLocations(mlre.MemberID);
                 ICollection<ProximityDetectedEvent> proximityEvents = 
                     proximityDetector.DetectProximityEvents(mlre, memberLocations, 30.0f);
                 foreach (var proximityEvent in proximityEvents) {
                     eventEmitter.EmitProximityDetectedEvent(proximityEvent);
                 }
 
-                locationCache.Put(mlre.TeamID, new MemberLocation { MemberID = mlre.MemberID, Location = new GpsCoordinate {
+                locationCache.Put(mlre.MemberID, new MemberLocation { MemberID = mlre.MemberID, Location = new GpsCoordinate {
                     Latitude = mlre.Latitude, Longitude = mlre.Longitude
                 } });
             };

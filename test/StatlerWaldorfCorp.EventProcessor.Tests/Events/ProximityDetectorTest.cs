@@ -31,7 +31,7 @@ namespace FindMyKids.EventProcessor.Tests.Events
                     MemberID = Guid.NewGuid(),
                     RecordedTime = DateTime.UtcNow.Ticks,
                     ReportID = Guid.NewGuid(),
-                    TeamID = Guid.NewGuid()
+                    //TeamID = Guid.NewGuid()
                 };
             var detections = new List<ProximityDetectedEvent>( 
                     detector.DetectProximityEvents( memberLocationEvent,
@@ -57,7 +57,7 @@ namespace FindMyKids.EventProcessor.Tests.Events
                     MemberID = Guid.NewGuid(),
                     RecordedTime = DateTime.UtcNow.Ticks,
                     ReportID = Guid.NewGuid(),
-                    TeamID = Guid.NewGuid()
+                    //TeamID = Guid.NewGuid()
                 };
             var detections = new List<ProximityDetectedEvent>( 
                     detector.DetectProximityEvents( memberLocationEvent,
@@ -86,7 +86,7 @@ namespace FindMyKids.EventProcessor.Tests.Events
                 MemberID = Guid.NewGuid(),
                 RecordedTime = DateTime.UtcNow.Ticks,
                 ReportID = Guid.NewGuid(),
-                TeamID = Guid.NewGuid()
+                //TeamID = Guid.NewGuid()
             };
             var detections = new List<ProximityDetectedEvent>(
                 detector.DetectProximityEvents(memberEvent, wideTeam, 50.0)

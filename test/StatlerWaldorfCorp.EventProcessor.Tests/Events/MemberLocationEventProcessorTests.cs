@@ -37,7 +37,7 @@ namespace FindMyKids.EventProcessor.Tests.Events
                 Latitude = GpsUtilityTest.QueensNY.Latitude,
                 Longitude = GpsUtilityTest.QueensNY.Longitude,
                 MemberID = memberId1,
-                TeamID = teamID,
+                //TeamID = teamID,
                 RecordedTime = DateTime.UtcNow.Ticks,
                 ReportID = Guid.NewGuid()
             };
@@ -46,7 +46,7 @@ namespace FindMyKids.EventProcessor.Tests.Events
                 Latitude = GpsUtilityTest.NewYorkCity.Latitude,
                 Longitude = GpsUtilityTest.NewYorkCity.Longitude,
                 MemberID = memberId2,
-                TeamID = teamID,
+                //TeamID = teamID,
                 RecordedTime = DateTime.UtcNow.Ticks,
                 ReportID = Guid.NewGuid()
             };
@@ -94,12 +94,12 @@ namespace FindMyKids.EventProcessor.Tests.Events
             internalStorage = new Dictionary<Guid, List<MemberLocation>>();
         }
 
-        public IList<MemberLocation> GetMemberLocations(Guid teamId)
+        public IList<MemberLocation> GetMemberLocations(Guid memberId)
         {
-            if (!internalStorage.ContainsKey(teamId)) {
-                internalStorage[teamId] = new List<MemberLocation>();
+            if (!internalStorage.ContainsKey(memberId)) {
+                internalStorage[memberId] = new List<MemberLocation>();
             }
-            return internalStorage[teamId];
+            return internalStorage[memberId];
         }
 
         public void Put(Guid teamId, MemberLocation memberLocation)

@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using FindMyKids.TeamService.Models;
+using Microsoft.Extensions.Logging;
 
 namespace FindMyKids.TeamService
 {
@@ -30,16 +31,16 @@ namespace FindMyKids.TeamService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy(MyAllowSpecificOrigins,
-                builder =>
-                {
-                    builder.WithOrigins("http://localhost:8080")
-                                        .AllowAnyHeader()
-                                        .AllowAnyMethod();
-                });
-            });
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy(MyAllowSpecificOrigins,
+            //    builder =>
+            //    {
+            //        builder.WithOrigins("http://localhost:8080")
+            //                            .AllowAnyHeader()
+            //                            .AllowAnyMethod();
+            //    });
+            //});
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -48,6 +49,8 @@ namespace FindMyKids.TeamService
 
             //services.AddMvc(); Fix add swagger
             services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddOptions();
+
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
             {
@@ -72,6 +75,9 @@ namespace FindMyKids.TeamService
             services.Configure<AppSettings>(appSettingsSection);
             services.AddScoped<IMemberRepository, ELSMemberRepository>();
 
+            services.AddLogging(configure => configure.AddConsole());
+            services.AddLogging(configure => configure.AddDebug());
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Find My Kid (Team Service) API Document", Version = "v1" });
@@ -80,17 +86,17 @@ namespace FindMyKids.TeamService
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Find my kids");
+                c.RoutePrefix = string.Empty;
             });
 
-            app.UseCors(MyAllowSpecificOrigins);
             app.UseCors(options => options.AllowAnyOrigin());
-            app.UseAuthentication();
-            app.UseAuthorization();
+
+            //app.UseAuthentication();
+            //app.UseAuthorization();
             app.UseMvc();
         }
     }   

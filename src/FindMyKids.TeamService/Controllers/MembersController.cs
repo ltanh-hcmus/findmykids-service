@@ -26,9 +26,16 @@ namespace FindMyKids.TeamService
 			reCaptcha = appOptions.Value.ReCaptcha;
 		}
 
+		//public MembersController(IMemberRepository repo, AppSettings appOptions)
+		//{
+		//	repository = repo;
+		//	secret = appOptions.Secret;
+		//	reCaptcha = appOptions.ReCaptcha;
+		//}
+
 		[AllowAnonymous]
 		[HttpPost]
-		[EnableCors("_myAllowSpecificOrigins")]
+		[EnableCors()]
 		[Route("/[controller]/login")]
 		public virtual IActionResult Login([FromBody]AuthenticateModel auth)
 		{
