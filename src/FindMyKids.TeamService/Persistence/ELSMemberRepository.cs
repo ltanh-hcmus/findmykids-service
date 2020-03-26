@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Nest;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FindMyKids.FamilyService.Persistence
@@ -68,6 +69,17 @@ namespace FindMyKids.FamilyService.Persistence
             }
 
             return null;
+        }
+
+        public List<MemberInfo> Get(SearchModel search)
+        {
+            ISearchResponse<MemberInfo> searchResponse = this.client.Search<MemberInfo>(s => s
+                .From(search.Page * PageInfo.PerPage)
+                .Size(PageInfo.PerPage)
+                .MatchAll()
+            );
+
+            return searchResponse.Documents.ToList();
         }
 
         public MemberInfo Get(Guid id)

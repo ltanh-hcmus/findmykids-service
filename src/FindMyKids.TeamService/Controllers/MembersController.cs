@@ -35,7 +35,7 @@ namespace FindMyKids.TeamService
 
 		[AllowAnonymous]
 		[HttpPost]
-		[EnableCors()]
+		[EnableCors("_myAllowSpecificOrigins")]
 		[Route("/[controller]/login")]
 		public virtual IActionResult Login([FromBody]AuthenticateModel auth)
 		{

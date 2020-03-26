@@ -31,16 +31,16 @@ namespace FindMyKids.TeamService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy(MyAllowSpecificOrigins,
-            //    builder =>
-            //    {
-            //        builder.WithOrigins("http://localhost:8080")
-            //                            .AllowAnyHeader()
-            //                            .AllowAnyMethod();
-            //    });
-            //});
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:8080")
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                });
+            });
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -93,6 +93,7 @@ namespace FindMyKids.TeamService
                 c.RoutePrefix = string.Empty;
             });
 
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseCors(options => options.AllowAnyOrigin());
 
             //app.UseAuthentication();
